@@ -7,16 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Profession extends Model
+class UserProfession extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'user_id',
+        'profession_id'
     ];
-
-    public function professions(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
 }

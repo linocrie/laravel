@@ -104,21 +104,19 @@
                                     <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ $detail->country }}" autofocus>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <select class="mdb-select colorful-select dropdown-primary md-form" multiple searchable="Search here..">
-                                        <option value="" disabled selected>Choose your country</option>
-                                        <option value="1">{{$professions->name}}</option>
-                                        <option value="2">Germany</option>
-                                        <option value="3">France</option>
-                                        <option value="4">Poland</option>
-                                        <option value="5">Japan</option>
+                            <div class="form-group row">
+                                <label for="profession"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Professions') }}</label>
+                                <div class="col-md-6">
+                                    <select class="mdb-select colorful-select js-example-basic-multiple w-100 "
+                                            name="professions"
+                                            multiple="multiple">
+                                        @foreach($professions as $value)
+                                            <option  value="{{$value['id']}}">{{$value['name']}}</option>
+                                        @endforeach
                                     </select>
-                                    <label class="mdb-main-label">Label example</label>
-
                                 </div>
                             </div>
-
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">

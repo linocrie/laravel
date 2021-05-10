@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Detail;
+use App\Models\Profession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -17,17 +18,19 @@ class ProfileController extends Controller
 
     public function index()
     {
+        $professions = Profession::get()->toArray();
         $user = Auth::user()->load('detail');
-//        $user->professions()->sync([1]);
+//        $selected_professions = User::with(['professions'])->find(Auth::id())->toArray()['professions'];
 
         return view('profile')
             ->with('user', $user)
-            ->with('detail', $user->detail);
+            ->with('detail', $user->detail)
+            ->with('professions',$professions);
+//            ->with('selected_professions',$selected_professions);
     }
 
     public function update(Request $request) {
         $user = Auth::user()->load('detail');
-//        dd($user);exit;
         User::updateOrCreate(
             ['id' => $user->id],
             [
@@ -35,6 +38,7 @@ class ProfileController extends Controller
                 'email' => $request->email,
             ]
         );
+
         return back()
             ->with('success', 'Profile successfully updated');
     }
