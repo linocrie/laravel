@@ -135,11 +135,9 @@
                                         <select class="mdb-select colorful-select js-example-basic-multiple w-100 "
                                                 name="professions"
                                                 multiple="multiple">
-{{--                                            @foreach($professions as $value)--}}
-{{--                                                --}}{{--                                            <option {{ in_array($value['id'], $user_professions) ? 'selected' : ''}} value="{{ $value['id'] }}">{{ $value['name'] }}</option>--}}
-{{--                                                <option--}}
-{{--                                                    {{ old('professions') == $value['id'] ? 'selected' : ''}} value="{{ $value['id'] }}">{{ $value['name'] }}</option>--}}
-{{--                                            @endforeach--}}
+                                            @foreach($professions as $value)
+                                            <option value="{{ $value['id'] }}" @if(in_array($value['id'], $user->professions->pluck('id')->all())) selected @endif>{{ $value['name'] }}</option>--}}
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
