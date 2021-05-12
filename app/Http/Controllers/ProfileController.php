@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Detail;
+use App\Models\Avatar;
 use App\Models\Profession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -18,17 +20,19 @@ class ProfileController extends Controller
 
     public function index()
     {
+        $user = Auth::user()->load(['detail','avatar','professions']);
+        if(!$user->avatar){
+            $user_path = 'avatars/avatar.png';
+        }
+        else{
+            $user_path = $user->avatar->path;
+        }
         $professions = Profession::get()->toArray();
-        $user = Auth::user()->load('detail');
-//        $selected_professions = User::with(['professions'])->find(Auth::id())->toArray()['professions'];
-
         return view('profile')
             ->with('user', $user)
-            ->with('detail', $user->detail)
-            ->with('professions',$professions);
-//            ->with('selected_professions',$selected_professions);
+            ->with('professions',$professions)
+            ->with('user_path',$user_path);
     }
-
     public function update(Request $request) {
         $user = Auth::user()->load('detail');
         User::updateOrCreate(
@@ -38,7 +42,6 @@ class ProfileController extends Controller
                 'email' => $request->email,
             ]
         );
-
         return back()
             ->with('success', 'Profile successfully updated');
     }
