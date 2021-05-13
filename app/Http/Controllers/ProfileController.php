@@ -33,7 +33,8 @@ class ProfileController extends Controller
             ->with('professions',$professions)
             ->with('user_path',$user_path);
     }
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         $user = Auth::user()->load('detail');
         User::updateOrCreate(
             ['id' => $user->id],

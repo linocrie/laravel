@@ -47,6 +47,9 @@
                             </li>
                         @endif
                     @else
+                        <div class="posts mt-2 mr-2">
+                            <a href="{{ route('posts.index') }}" class="text-decoration-none" style="color:rgba(0, 0, 0, 0.5);font-size: 15px;">Posts</a>
+                        </div>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}

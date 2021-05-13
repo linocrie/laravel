@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Detail;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +16,9 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(50)->create();
+        User::factory(50)
+            ->has(Detail::factory()->count(1))
+            ->has(Post::factory()->count(1))
+            ->create();
     }
 }

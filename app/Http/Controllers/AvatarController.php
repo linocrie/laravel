@@ -14,11 +14,14 @@ class AvatarController extends Controller
         $request->validate([
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
         $user = Auth::user()->load('avatar');
         $path = $request->file('avatar')->store('avatars');
+
         if($user->avatar){
             Storage::delete($user->avatar->path);
         }
+
         Avatar::updateOrCreate(
             ['user_id' => Auth::id()],
             [
@@ -26,6 +29,7 @@ class AvatarController extends Controller
                 'path'          =>  $path,
             ]
         );
+
         return back()
             ->with('success','Avatar successfully uploaded');
     }

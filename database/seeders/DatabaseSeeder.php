@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Professions;
+use App\Models\Post;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 
@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            DetailSeeder::class,
-            ProfessionSeeder::class
+            UserSeeder::class,
+//            DetailSeeder::class,
+            ProfessionSeeder::class,
         ]);
     }
 }

@@ -5,13 +5,11 @@
         @if(session('success'))
             <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
         @endif
-
         <div class="d-flex">
             <div>
                 <div class="avatar d-flex justify-content-center align-items-center overflow-hidden rounded-circle mb-3"
                      style="width: 200px;height: 200px;background-color: rgba(0, 0, 0, 0.8);">
-                    <img src="{{asset('/storage/'. $user_path)}}" alt="avatar" class="img-fluid h-100 m-3" id="userAvatar"
-                         style="object-fit: cover;">
+                    <img src="{{asset('/storage/'. $user_path)}}" alt="avatar" class="img-fluid h-100 m-3" id="userAvatar">
                 </div>
                 <form action="{{route('profile.upload')}}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -28,7 +26,6 @@
                     </div>
                     <button type="submit" class="btn btn-dark mb-2">Upload</button>
                 </form>
-
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-8">
