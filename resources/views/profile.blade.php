@@ -6,6 +6,7 @@
             <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
         @endif
         <div class="d-flex">
+
             <div>
                 <div class="avatar d-flex justify-content-center align-items-center overflow-hidden rounded-circle mb-3"
                      style="width: 200px;height: 200px;background-color: rgba(0, 0, 0, 0.8);">
@@ -130,7 +131,7 @@
                                            class="col-md-4 col-form-label text-md-right">{{ __('Professions') }}</label>
                                     <div class="col-md-6">
                                         <select class="mdb-select colorful-select js-example-basic-multiple w-100 "
-                                                name="professions"
+                                                name="professions[]"
                                                 multiple="multiple">
                                             @foreach($professions as $value)
                                             <option value="{{ $value['id'] }}" @if(in_array($value['id'], $user->professions->pluck('id')->all())) selected @endif>{{ $value['name'] }}</option>--}}

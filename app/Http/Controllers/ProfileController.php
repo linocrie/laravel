@@ -27,7 +27,7 @@ class ProfileController extends Controller
         else{
             $user_path = $user->avatar->path;
         }
-        $professions = Profession::get()->toArray();
+        $professions = Profession::get();
         return view('profile')
             ->with('user', $user)
             ->with('professions',$professions)

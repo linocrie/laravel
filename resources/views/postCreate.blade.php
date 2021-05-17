@@ -35,6 +35,19 @@
                    <label class="custom-file-label" for="myAvatar">Choose file</label>
                </div>
            </div>
+           <div class="form-group row">
+               <label for="profession"
+                      class="col-md-4 col-form-label text-md-right">{{ __('Professions') }}</label>
+               <div class="col-md-6">
+                   <select class="mdb-select colorful-select js-example-basic-multiple w-100 "
+                           name="professions[]"
+                           multiple="multiple">
+                       @foreach($professions as $value)
+                           <option value="{{ $value['id'] }}">{{ $value['name'] }}</option>
+                       @endforeach
+                   </select>
+               </div>
+           </div>
             <div class="text-center mt-5">
                 <button type="submit" class="btn btn-dark">Create</button>
             </div>

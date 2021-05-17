@@ -26,7 +26,6 @@ class PostFactory extends Factory
             'user_id' => User::factory(),
             'title'   => $this->faker->title,
             'description' => $this->faker->text,
-            'img_original_name' => $this->faker->image('public/storage/avatars',200,200, null, false),
         ];
     }
 }
