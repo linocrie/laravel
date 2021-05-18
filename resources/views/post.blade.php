@@ -26,17 +26,17 @@
                                     <p class="font-weight-bold">Created:{{substr($value->created_at, 11, -3)}}</p>
                                 </div>
                                 <div>
-                                    <p>{{$value->description}}</p>
+                                    <p>{{Str::limit($value->description),250}}</p>
                                 </div>
                             </div>
                         </div>
                         <form action="{{route('posts.delete',['id'=> $value->id])}}" method="POST" enctype="multipart/form-data" class="m-3">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-dark">Delete</button>
+                            <button class="btn btn-danger">Delete</button>
                         </form>
                         <div class="m-3">
-                            <a href="{{route('posts.show',['id'=> $value->id])}}" class="btn btn-dark">Edit</a>
+                            <a href="{{route('posts.show',['post'=> $value->id])}}" class="btn btn-dark">Edit</a>
                         </div>
                     </div>
                 </div>

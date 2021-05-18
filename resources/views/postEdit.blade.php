@@ -10,16 +10,14 @@
                 <div class="col-md-6">
                     <input id="title" type="text"
                            class="form-control @error('title') is-invalid @enderror" name="title"
-                           required autofocus>
+                           required autofocus value="{{$post->title}}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="description"
                        class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
                 <div class="col-md-6">
-                    <input id="description" type="text"
-                           class="form-control @error('desc') is-invalid @enderror" name="description"
-                           required autofocus>
+                    <textarea name="description" id="description" class="form-control @error('desc') is-invalid @enderror" required autofocus>{{$post->description}}</textarea>
                 </div>
             </div>
             <div class="form-group d-flex">

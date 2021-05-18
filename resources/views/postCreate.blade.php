@@ -16,9 +16,7 @@
                <label for="description"
                       class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
                <div class="col-md-6">
-                   <input id="description" type="text"
-                          class="form-control @error('desc') is-invalid @enderror" name="description"
-                          required autofocus>
+                   <textarea name="description" id="description" class="form-control @error('desc') is-invalid @enderror" required autofocus></textarea>
                </div>
            </div>
            <div class="form-group d-flex">

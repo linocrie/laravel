@@ -23,7 +23,7 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:191',
-            'description' => 'required'
+            'description' => 'required',
        ]);
         $path = $request->file('avatar')->store('images');
         $post = Post::create(
@@ -60,10 +60,9 @@ class PostController extends Controller
                 'description'  =>  $request->description,
             ]
         );
-        $post_id = $request->id;
         PostImage::updateOrCreate(
             [
-                'post_id' => $post_id,
+                'post_id' => $request->id,
             ],
             [
                 'img_original_name' => $request->file('avatar')->getClientOriginalName(),
@@ -71,6 +70,7 @@ class PostController extends Controller
             ]
         );
         Post::where('id', $request->id)->where('user_id',Auth::id())->first()->professions()->sync($request->professions);
+
         return redirect()->route('posts.index');
     }
 
@@ -86,17 +86,19 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    public function show(Post $id): View
+    public function show(Post $post)
     {
-        return view('postEdit')
-            ->with('post',$id)
-            ->with('professions', Profession::get());
+        abort_if($post->user_id !== Auth::id(), 403,'Unauthorized action');
+            return view('postEdit')
+                ->with('post',$post)
+                ->with('professions', Profession::get());
+
     }
+
     public function create(): View
     {
         $professions = Profession::get();
         return view('postCreate')
             ->with('professions',$professions);
     }
-
 }
