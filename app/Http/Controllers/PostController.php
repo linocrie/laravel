@@ -48,7 +48,7 @@ class PostController extends Controller
     public function edit(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $path = $request->file('avatar')->store('images');
         Post::updateOrCReate(
@@ -101,4 +101,6 @@ class PostController extends Controller
         return view('postCreate')
             ->with('professions',$professions);
     }
+
+
 }

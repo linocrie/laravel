@@ -13,22 +13,23 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
 
 
 
 </head>
-<body>
+<body class="bg-dark">
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+    <nav class="navbar navbar-expand-md bg-dark shadow-sm">
+        <div class="container ">
+            <a class="navbar-brand text-danger font-weight-bold" href="{{ url('/') }}">
                 {{ config('app.name', 'Laravel') }}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse text-light" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                 </ul>
@@ -38,23 +39,29 @@
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link text-danger font-weight-bold" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @endif
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link text-danger font-weight-bold" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
                         @endif
                     @else
+                        <div class="gallery mt-2 mr-3">
+                            <a href="{{ route('galleries.index') }}" class="text-decoration-none text-danger font-weight-bold" style="color:rgba(0, 0, 0, 0.5);font-size: 15px;">Gallery</a>
+                        </div>
                         <div class="posts mt-2 mr-2">
-                            <a href="{{ route('posts.index') }}" class="text-decoration-none" style="color:rgba(0, 0, 0, 0.5);font-size: 15px;">Posts</a>
+                            <a href="{{ route('posts.index') }}" class="text-decoration-none text-danger font-weight-bold" style="color:rgba(0, 0, 0, 0.5);font-size: 15px;">Posts</a>
+                        </div>
+                        <div class="feed mt-2 mr-3">
+                            <a href="{{ route('feed.index') }}" class="text-decoration-none text-danger font-weight-bold" style="color:rgba(0, 0, 0, 0.5);font-size: 15px;">Feed</a>
                         </div>
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle text-danger font-weight-bold" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-right bg-secondary" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"

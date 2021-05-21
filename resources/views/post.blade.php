@@ -4,14 +4,14 @@
 
     <div class="container">
         <div class="button mb-5 d-flex flex-row-reverse">
-            <a href="{{route('posts.create')}}" class="btn btn-dark">Create New Post</a>
+            <a href="{{route('posts.create')}}" class="btn btn-light text-danger font-weight-bold">Create New Post</a>
         </div>
         @if(!$user)
             <p>No Posts</p>
         @endif
         @foreach($user as $value)
         <div class="row">
-                <div class="card border mb-3">
+                <div class="card bg-secondary mb-3">
                     <div class="d-flex">
                         <div class="avatar overflow-hidden rounded-circle m-4"
                              style="width: 100px;height: 100px;background-color: rgba(0, 0, 0, 0.8);">

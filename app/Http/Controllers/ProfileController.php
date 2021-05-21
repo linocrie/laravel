@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Galleries;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Detail;
@@ -28,10 +29,12 @@ class ProfileController extends Controller
             $user_path = $user->avatar->path;
         }
         $professions = Profession::get();
+        $gallery =  Galleries::where('user_id', Auth::id())->get();
         return view('profile')
             ->with('user', $user)
             ->with('professions',$professions)
-            ->with('user_path',$user_path);
+            ->with('user_path',$user_path)
+            ->with('gallery',$gallery);
     }
     public function update(Request $request)
     {
