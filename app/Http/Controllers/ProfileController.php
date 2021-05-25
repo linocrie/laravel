@@ -21,7 +21,7 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $user = Auth::user()->load(['detail','avatar','professions']);
+        $user = Auth::user()->load(['detail','avatar','professions','gallery']);
         if(!$user->avatar){
             $user_path = 'avatars/avatar.png';
         }
@@ -29,16 +29,14 @@ class ProfileController extends Controller
             $user_path = $user->avatar->path;
         }
         $professions = Profession::get();
-        $gallery =  Galleries::where('user_id', Auth::id())->get();
         return view('profile')
             ->with('user', $user)
             ->with('professions',$professions)
-            ->with('user_path',$user_path)
-            ->with('gallery',$gallery);
+            ->with('user_path',$user_path);
     }
     public function update(Request $request)
     {
-        $user = Auth::user()->load('detail');
+        $user = Auth::user();
         User::updateOrCreate(
             ['id' => $user->id],
             [

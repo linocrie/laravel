@@ -22,7 +22,7 @@ class Profession extends Model
 
     public function posts(): BelongsToMany
     {
-        return $this->BelongsToMany(Post::class);
+        return $this->BelongsToMany(Post::class,'post_profession');
     }
 
 }

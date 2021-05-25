@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         @if(Auth::id() == $gallery->user_id)
-            <form method="POST" action="{{ route('galleries.edit',['id'=> $gallery->id])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('galleries.edit',['gallery'=> $gallery->id])}}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group row">
@@ -14,7 +14,6 @@
                                required autofocus>
                     </div>
                 </div>
-
                 <div class="form-group d-flex">
                     <label for="gallery_images"
                            class="col-md-4 col-form-label text-md-right font-weight-bold text-light">{{ __('Image') }}</label>
@@ -34,12 +33,11 @@
                 </div>
             </form>
         @endif
-
         <div class="d-flex flex-wrap">
             @foreach($gallery->galleriesImages as $img)
                 <div class="d-flex flex-column text-right">
                     @if(Auth::id() == $gallery->user_id)
-                        <form action="{{route('galleries.delete', ['id'=> $img->id])}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{route('galleries.delete', ['image'=> $img->id])}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('DELETE')
                             <div class="delete">
@@ -49,7 +47,6 @@
                             </div>
                         </form>
                     @endif
-
                     <div class="d-flex justify-content-center align-items-center overflow-hidden mb-3 ml-3"
                          style="width: 150px;height: 150px;background-color: rgba(0, 0, 0, 0.8);">
                         <img src="{{asset('/storage/'.$img->path)}}" alt="gallery" class="img-fluid h-100 m-3">
@@ -57,7 +54,6 @@
                 </div>
             @endforeach
         </div>
-
     </div>
 @endsection
 

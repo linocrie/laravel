@@ -15,7 +15,7 @@ class AvatarController extends Controller
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $user = Auth::user()->load('avatar');
+        $user = Auth::user();
         $path = $request->file('avatar')->store('avatars');
 
         if($user->avatar){

@@ -12,7 +12,6 @@
                            required autofocus>
                 </div>
             </div>
-
             <div class="form-group d-flex">
                 <label for="gallery_images"
                        class="col-md-4 col-form-label text-md-right font-weight-bold text-light">{{ __('Image') }}</label>

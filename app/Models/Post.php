@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\PostUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,5 +33,8 @@ class Post extends Model
     {
         return $this->BelongsToMany(Profession::class);
     }
-
+    public function scopeAuthorize($query)
+    {
+        return $query->where('user_id', auth()->id());
+    }
 }

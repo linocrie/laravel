@@ -23,41 +23,32 @@ class FeedController extends Controller
     /**
      * Show the application dashboard.
      *
-      @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        $professions = auth()->user()->load(['professions'])->professions;
+        $professions = auth()->user()->professions;
+
         $posts = Post::whereHas('professions', function (Builder $query) use ($professions){
-            $arr = [];
+            $query->whereIn('profession_id', $professions->pluck('id')->all());
+        })
+            ->where('user_id', '!=', auth()->id())
+            ->paginate(5);
 
-            foreach($professions as $value) {
-                array_push($arr,$value->id);
-            }
-            $query->whereIn('id', $arr);
-
-        })->simplePaginate(5);
-
-        return view('feed')
-            ->with('posts',$posts);
+        return view('feed')->with('posts', $posts);
     }
 
     public function view(Post $post)
     {
-        $user = Post::where('id',$post->id)->first()->load(['postImage']);
-
-        if(!$user->postImage->avatar){
-            $user_path = 'avatars/avatar.png';
+        $posts = Post::with(['postImage', 'professions'])->where('id', $post->id)->first();
+        if (!$posts->postImage->avatar) {
+            $path = 'avatars/avatar.png';
+        } else {
+            $path = $posts->postImage->path;
         }
-        else{
-            $user_path = $user->postImage->path;
-        }
-
-        return view('postMore')
-            ->with('user',$user)
-            ->with('user_path',$user_path)
-            ->with('post_user',$post->user()->first())
-            ->with('profession', Profession::get());
+        return view('post.more')
+            ->with('posts', $posts)
+            ->with('path', $path)
+            ->with('post_user', $post->user()->first());
     }
-
 }

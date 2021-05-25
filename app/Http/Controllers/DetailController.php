@@ -17,7 +17,7 @@ class DetailController extends Controller
     }
 
     public function update(Request $request) {
-        $user = Auth::user()->load('detail');
+        $user = Auth::user();
         Detail::updateOrCreate(
             ['user_id'    => $user->id],
             [

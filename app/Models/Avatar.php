@@ -22,4 +22,9 @@ class Avatar extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function friend(): BelongsTo
+    {
+        return $this->belongsTo(Friend::class);
+    }
+
 }

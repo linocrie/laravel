@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\PostImage;
 use App\Models\Profession;
 use Illuminate\Http\Request;
@@ -14,93 +16,70 @@ class PostController extends Controller
 {
     public function index()
     {
-        $user = Post::where('user_id',Auth::id())->get()->load(['postImage']);
-        return view('post')
-            ->with('user',$user);
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:191',
-            'description' => 'required',
-       ]);
-        $path = $request->file('avatar')->store('images');
-        $post = Post::create(
-            [
-                'user_id'     =>  auth()->user()->id,
-                'title'       =>  $request->title,
-                'description' =>  $request->description,
-            ]
-        );
-        PostImage::Create(
-            [
-                'post_id'           => $post->id,
-                'user_id'           => auth()->user()->id,
-                'img_original_name' => $request->file('avatar')->getClientOriginalName(),
-                'path'              => $path
-            ]
-        );
-        $post->professions()->attach($request->professions);
-        return redirect()->route('posts.index');
-    }
-
-    public function edit(Request $request)
-    {
-        $request->validate([
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-        $path = $request->file('avatar')->store('images');
-        Post::updateOrCReate(
-            [
-                'id' => $request->id,
-            ],
-            [
-                'title'        =>  $request->title,
-                'description'  =>  $request->description,
-            ]
-        );
-        PostImage::updateOrCreate(
-            [
-                'post_id' => $request->id,
-            ],
-            [
-                'img_original_name' => $request->file('avatar')->getClientOriginalName(),
-                'path'              =>  $path,
-            ]
-        );
-        Post::where('id', $request->id)->where('user_id',Auth::id())->first()->professions()->sync($request->professions);
-
-        return redirect()->route('posts.index');
-    }
-
-    public function delete(Request $request) {
-        if(Post::where('id', $request->id)->first()->load(['postImage'])->postImage){
-            Storage::delete(Post::where('id',$request->id)->first()->load(['postImage'])->postImage->path);
-        }
-
-        PostImage::where('post_id',$request->id)->delete();
-        Post::where('id',$request->id)->first()->professions()->detach($request->professions);
-        Post::where('id',$request->id)->delete();
-
-        return redirect()->route('posts.index');
-    }
-
-    public function show(Post $post)
-    {
-        abort_if($post->user_id !== Auth::id(), 403,'Unauthorized action');
-            return view('postEdit')
-                ->with('post',$post)
-                ->with('professions', Profession::get());
-
+        $posts = Post::with('postImage')->authorize()->get();
+        return view('post.post')
+            ->with('posts', $posts);
     }
 
     public function create(): View
     {
         $professions = Profession::get();
-        return view('postCreate')
-            ->with('professions',$professions);
+        return view('post.create')
+            ->with('professions', $professions);
     }
 
+    public function store(PostRequest $request)
+    {
+        $path = $request->file('avatar')->store('images');
+        $post = Post::authorize()->create([
+            'user_id' => auth()->user()->id,
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+        $post->postImage()->create([
+            'user_id' => auth()->user()->id,
+            'img_original_name' => $request->file('avatar')->getClientOriginalName(),
+            'path' => $path
+        ]);
+        $post->professions()->attach($request->professions);
+        return redirect()->route('posts.index');
+    }
+
+    public function show(Post $post)
+    {
+        return view('post.edit')
+            ->with('post', $post)
+            ->with('professions', Profession::get());
+    }
+
+    public function edit(PostRequest $request, Post $post)
+    {
+        $path = $request->file('avatar')->store('images');
+        $post->update([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+        $post->postImage()->updateOrCreate(
+            ['post_id' => $request->id],
+            [
+                'img_original_name' => $request->file('avatar')->getClientOriginalName(),
+                'path' => $path,
+            ]);
+        $post->professions()->sync($request->professions);
+
+        return redirect()->route('posts.index');
+    }
+
+    public function delete(Post $post)
+    {
+        if ($post->postImage()->exists()) {
+            Storage::delete($post->postImage()->path);
+        }
+        $post->postImage()->delete();
+        $post->professions()->detach();
+        $post->delete();
+
+        return redirect()->route('posts.index');
+    }
 
 }

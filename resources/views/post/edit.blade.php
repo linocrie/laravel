@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form method="POST" action="{{route('posts.edit',['id'=> $post->id])}}" enctype="multipart/form-data">
+        <form method="POST" action="{{route('posts.edit',['post'=> $post->id])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group row">
