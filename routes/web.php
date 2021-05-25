@@ -26,6 +26,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::prefix('admin')->group(function() {
+
+});
 
 Route::prefix('feed')->group(function() {
     Route::get('/', [FeedController::class, 'index'])->name('feed.index');
